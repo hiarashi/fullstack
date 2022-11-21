@@ -1,0 +1,24 @@
+title Spa New Note
+note over selain:
+käyttäjä syöttää nootin
+ja painaa lähetä
+end note
+note over selain:
+selain lisää omaan listaansa
+uuden nootin päiväyksineen
+sekä estää oletustoiminnallisuuden
+end note
+note over selain:
+selaimen lista päivittyy, koska
+funktioon on määritelty
+uudelleenrenderöinti
+end note
+note over selain:
+jo oman listansa päivitettyään selain
+lähettää nootin serverille JSONina
+end note
+selain -> palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa content type JSON
+note over palvelin:
+palvelin tallentaa saapuneen nootin
+end note
+palvelin --> selain: Response 201 Note Created

@@ -1,0 +1,26 @@
+title single page app
+note over selain: 
+käyttäjä surffaa osoitteeseen
+https://studies.cs.helsinki.fi/exampleapp/spa
+end note
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+palvelin-->selain: HTML
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+palvelin-->selain: main.css
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+palvelin-->selain: spa.js
+note over selain
+javascript koodi suoritetaan jolloin
+hakupyyntö JSON-datasta lähetetään
+end note
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+palvelin-->selain: [{"content":"asdf","date":2022-11-20T12:07:10.674Z"},...]
+note over selain
+nykyselaimilla haetaan vielä osoitepalkin
+mahdollinen ikoni palvelimelta
+end note
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/favicon.ico
+palvelin-->selain: HTML
+note over selain
+renderöinti suoritetaan
+end note

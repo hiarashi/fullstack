@@ -1,0 +1,39 @@
+note over selain: 
+käyttäjä syöttää muistiinpanon kenttään
+ja painaa 'tallenna'
+end note
+selain->palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+note over palvelin:
+palvelin tallentaa muistiinpanon
+end note
+note over palvelin
+mikäli tallessa on jo 100 muistiinpanoa
+vanhin pudotetaan pois
+end note
+note over palvelin
+tallennuksen onnistuttua palvelin lähettää
+uudelleenohjauspyynnön selaimelle
+/notes -osoitteeseen
+end note
+palvelin-->selain: Response status 302, redirect /notes
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+palvelin-->selain: HTML
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+palvelin-->selain: main.css
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+palvelin-->selain: main.js
+note over selain
+javascript koodi suoritetaan jolloin
+hakupyyntö JSON-datasta lähetetään
+end note
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+palvelin-->selain: [{"content":"asdf","date":2022-11-20T12:07:10.674Z"},...]
+note over selain
+nykyselaimilla haetaan vielä osoitepalkin
+mahdollinen ikoni palvelimelta
+end note
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/favicon.ico
+palvelin-->selain: HTML
+note over selain
+renderöinti
+end note
