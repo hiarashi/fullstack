@@ -3,7 +3,6 @@ import axios from "axios";
 
 const CountryDetails = ({country}) => {
     const [weather, setWeather] = useState({temp:0.0,description:'',icon:'04d',wind:0.0});
-    /* const [latLon, setlatLon] = useState({lat:0.0, lon:0.0}); */
 
     useEffect(() =>{
         const api_key = process.env.REACT_APP_WEATHER_API_KEY;
@@ -14,12 +13,10 @@ const CountryDetails = ({country}) => {
         axios
         .get(`http://api.openweathermap.org/geo/1.0/direct?q=${city},${code}&appid=${api_key}`)
         .then(response => {
-            /* setlatLon({lon:response.data[0].lon , lat: response.data[0].lat}) */
             longitude = response.data[0].lon;
             latitude = response.data[0].lat})
         .then(
             axios
-            /* .get(`https://api.openweathermap.org/data/2.5/weather?lat=${latLon.lat}&lon=${latLon.lon}&appid=${api_key}`) */
             .get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${api_key}`)
             .then(response => {setWeather({
                 temp: (response.data.main.temp-273.15).toFixed(2),
