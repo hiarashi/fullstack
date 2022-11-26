@@ -4,8 +4,9 @@ import Filter from './components/Filter'
 import CountryList from './components/CountryList'
 
 function App() {
-  const [countries, setCountries] = useState([])
-  const [newFilter, setNewFilter] = useState('')
+  const [countries, setCountries] = useState([]);
+  const [newFilter, setNewFilter] = useState('');
+  
 
   useEffect(() =>{
     axios
@@ -19,7 +20,6 @@ function App() {
 
   return(
     <div>
-      {console.log(countries.filter(e => e.name.common.toLowerCase().includes(newFilter.toLowerCase())))}
       <Filter value={newFilter} handleChange={handleFilterChange} />
       <CountryList value={newFilter} countries={countries} setFilter={setNewFilter}/>
     </div>

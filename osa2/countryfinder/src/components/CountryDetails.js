@@ -1,4 +1,6 @@
 const CountryDetails = ({country}) => {
+    const api_key = process.env.REACT_APP_WEATHER_API_KEY;
+    
     return(
         <>
         <h1>{country.name.common}</h1>

@@ -4,7 +4,6 @@ const CountryList = ({ value, countries, setFilter }) => {
   const filtered = countries.filter((e) =>
     e.name.common.toLowerCase().includes(value.toLowerCase())
   );
-  console.log('Filtered: ',filtered)
 
   const handleShowClick = (country) => {
     setFilter(country.name.common)
