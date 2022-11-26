@@ -3,29 +3,28 @@ import axios from "axios";
 
 const CountryDetails = ({country}) => {
     const [weather, setWeather] = useState({temp:0.0,description:'',icon:'04d',wind:0.0});
+    const api_key = process.env.REACT_APP_WEATHER_API_KEY;
+
 
     useEffect(() =>{
-        const api_key = process.env.REACT_APP_WEATHER_API_KEY;
+        
         const city = country.capital[0];
         const code = country.cca2;
-        let longitude = 0;
-        let latitude = 0;
         axios
         .get(`http://api.openweathermap.org/geo/1.0/direct?q=${city},${code}&appid=${api_key}`)
         .then(response => {
-            longitude = response.data[0].lon;
-            latitude = response.data[0].lat})
-        .then(
+            const longitude = response.data[0].lon;
+            const latitude = response.data[0].lat;
             axios
-            .get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${api_key}`)
-            .then(response => {setWeather({
-                temp: (response.data.main.temp-273.15).toFixed(2),
-                description: response.data.weather[0].description,
-                icon: response.data.weather[0].icon,
-                wind: response.data.wind.speed})})
-        )
+        .get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${api_key}`)
+        .then(response => {setWeather({
+            temp: (response.data.main.temp-273.15).toFixed(2),
+            description: response.data.weather[0].description,
+            icon: response.data.weather[0].icon,
+            wind: response.data.wind.speed})})
+        })
         .catch((e) => console.log(e))
-    },([country]))
+    },([country, api_key]))
 
     return(
         <>
