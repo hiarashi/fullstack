@@ -2,18 +2,21 @@ import { useState, useEffect } from "react";
 import Filter from "./components/Filter";
 import Person from "./components/Person";
 import AddEntry from "./components/AddEntry";
+import Notification from "./components/Notification";
 import {
   getAllPersons,
   createPerson,
   deletePerson,
   updatePerson,
 } from "./services/phonebook";
+import './index.css'
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newFilter, setNewFilter] = useState("");
+  const [newNotification, setNotification] = useState({message:null, type:''});
 
   useEffect(() => {
     handleListRefresh();
@@ -31,10 +34,24 @@ const App = () => {
     setNewFilter(event.target.value);
   };
 
+  const handleNotification = (message, type) =>{
+    setNotification({message: message, type: type});
+    setTimeout(()=> {
+          setNotification({message: null, type: ''});
+        }, 5000)
+  }
+
   const handleDelete = (name) => {
     if (window.confirm(`Delete ${name}?`)) {
-      const id = persons.find((person) => person.name === name).id;
-      deletePerson(id).then(handleListRefresh()).catch((error) => console.log(error));
+      const deletedPerson = persons.find((person) => person.name === name);
+      deletePerson(deletedPerson.id)
+      .then(() => {
+        handleNotification(`${deletedPerson.name} successfully deleted`, 'notification')
+        })
+      .catch((error) => {
+        handleNotification(`${deletedPerson.name} was already deleted!`, 'error')
+      })
+      .finally(handleListRefresh());
     }
   };
 
@@ -57,9 +74,17 @@ const App = () => {
       )
     ) {
       const id = persons.find((entry) => entry.name === person.name).id;
-      updatePerson(id, person).then(handleListRefresh).catch(error => console.log(error));
+      updatePerson(id, person)
+      .then(()=>{
+        handleNotification(`${person.name} number updated successfully`,'notification')
+        handleListRefresh()})
+      .catch(error => handleNotification(`Could not update ${person.name}`, 'error'));
     } else {
-      createPerson(person).then(handleListRefresh).catch(error => console.log(error));
+      createPerson(person)
+      .then(() => {
+        handleNotification(`${person.name} successfully created`,'notification')
+        handleListRefresh()})
+      .catch(error => handleNotification(`Could not create ${person.name}`, 'error'));
       setNewName("");
       setNewNumber("");
     }
@@ -75,6 +100,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={newNotification.message} type={newNotification.type}/>
       <Filter value={newFilter} handleChange={handleFilterChange} />
       <AddEntry
         nameValue={newName}
