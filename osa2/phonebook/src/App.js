@@ -51,7 +51,8 @@ const App = () => {
       .catch((error) => {
         handleNotification(`${deletedPerson.name} was already deleted!`, 'error')
       })
-      .finally(handleListRefresh());
+      .finally(() => {
+        handleListRefresh()})
     }
   };
 
@@ -79,7 +80,7 @@ const App = () => {
         handleNotification(`${person.name} number updated successfully`,'notification')
         handleListRefresh()})
       .catch(error => handleNotification(`Could not update ${person.name}`, 'error'));
-    } else {
+    } else if (persons.filter((e) => e.name === person.name).length === 0){
       createPerson(person)
       .then(() => {
         handleNotification(`${person.name} successfully created`,'notification')
