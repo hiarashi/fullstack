@@ -85,7 +85,7 @@ const App = () => {
       .then(() => {
         handleNotification(`${person.name} successfully created`,'notification')
         handleListRefresh()})
-      .catch(error => handleNotification(`Could not create ${person.name}`, 'error'));
+      .catch(error => handleNotification(`${error.response.data.error}`, 'error'));
       setNewName("");
       setNewNumber("");
     }
